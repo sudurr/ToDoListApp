@@ -12,6 +12,7 @@ import Foundation
  〉Содержит две даты - дата создания задачи (обязательна) и дата изменения (опциональна)
  */
 
+
 struct ToDoItem {
     let id : String
     let text : String

@@ -12,6 +12,7 @@ import Foundation
  〉Обязательно использовать JSONSerialization (т.е. работу со словарем)
  */
 
+
 extension ToDoItem {
     
     static func parse(json: Any) -> ToDoItem? {

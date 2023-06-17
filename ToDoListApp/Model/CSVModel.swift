@@ -15,6 +15,7 @@ import Foundation
 CSV-файлы (файлы данных с разделителями) — это файлы особого типа, которые можно создавать и редактировать в Excel. В CSV-файлах данные хранятся не в столбцах, а разделенные "," или ";". Текст и числа, сохраненные в CSV-файле, можно легко переносить из одной программы в другую.
 */
 
+
 extension ToDoItem {
     static func parse(csv: String) -> ToDoItem? {
         let components = csv.components(separatedBy: ";")
