@@ -1,10 +1,3 @@
-//
-//  FileCacheModel.swift
-//  ToDoListApp
-//
-//  Created by Судур Сугунушев on 15.06.2023.
-//
-
 import Foundation
 
 //MARK: - FileCache
@@ -52,14 +45,16 @@ class FileCache {
         tasks = taskDictionaries?.compactMap { dict in
             guard let id = dict["id"] as? String,
                   let text = dict["text"] as? String,
-                  let isDone = dict["isDone"] as? Bool else {
-                return
-            }
-            return ToDoItem(id: id, text: text, isDone: isDone)
+                  let importance = dict["importance"] as? String,
+                  let isDone = dict["isDone"] as? Bool,
+                  let creationDate = dict["creationDate"] as? Date else {
+                      return nil
+                  }
+            return ToDoItem(id: id, text: text, importance: ToDoItem.Importance(rawValue: importance) ?? .regular, isDone: isDone, creationDate: creationDate)
         } ?? []
     }
     
-    private func getDocumentsDirectory() -> URL {
+      func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }

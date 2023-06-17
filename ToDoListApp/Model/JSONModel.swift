@@ -1,10 +1,3 @@
-//
-//  JSONModel.swift
-//  ToDoListApp
-//
-//  Created by Судур Сугунушев on 15.06.2023.
-//
-
 import Foundation
 
 //MARK: - Расширение ToDoItem для JSONa
@@ -20,6 +13,7 @@ import Foundation
  */
 
 extension ToDoItem {
+    
     static func parse(json: Any) -> ToDoItem? {
         guard let dictionary = json as? [String: Any],
               let id = dictionary["id"] as? String,
@@ -29,18 +23,20 @@ extension ToDoItem {
               let creationTimestamp = dictionary["creationDate"] as? Double else {
             return nil
         }
-        var deadline: Double?
+        
+        var deadline: Date?
+        
         if let checkedDeadline = dictionary["deadline"] as? Double {
-            deadline = checkedDeadline
+            deadline = Date.init(timeIntervalSince1970: checkedDeadline)
         }
         
         let creationDate = Date(timeIntervalSince1970: creationTimestamp)
         
-        return ToDoItem(text: text,
+        return ToDoItem(id: id,
+                        text: text,
                         importance: ToDoItem.Importance(rawValue: importance)!,
-                        deadline: Date(timeIntervalSince1970: deadline ?? 0),
-                        isDone: isDone,
-                        id: id)
+                        deadline: deadline,
+                        isDone: isDone)
     }
     
     var json: Any {
@@ -60,6 +56,7 @@ extension ToDoItem {
             let deadlineTimestamp = deadline.timeIntervalSince1970
             dictionary["deadline"] = deadlineTimestamp
         }
+        
         return dictionary
     }
 }

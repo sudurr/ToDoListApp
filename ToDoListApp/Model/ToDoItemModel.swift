@@ -1,10 +1,3 @@
-//
-//  ToDoItemModel.swift
-//  ToDoListApp
-//
-//  Created by Судур Сугунушев on 15.06.2023.
-//
-
 import Foundation
 
 //MARK: - Структура ToDoItem
@@ -27,7 +20,6 @@ struct ToDoItem {
     let isDone : Bool
     let creationDate: Date
     let changedDate: Date?
-    let isDeadline: Bool
     
     enum Importance: String {
         case notImportant = "Неважная"
@@ -35,7 +27,7 @@ struct ToDoItem {
         case important = "Важная"
     }
     
-    init(text: String, importance: Importance, deadline: Date? = nil, isDone: Bool = false, creationDate: Date = Date(), changedDate: Date? = nil, id: String = UUID().uuidString) {
+    init(id: String = UUID().uuidString, text: String, importance: Importance, deadline: Date? = nil, isDone: Bool = false, creationDate: Date = Date(), changedDate: Date? = nil) {
         self.id = id
         self.text = text
         self.importance = importance
@@ -43,9 +35,5 @@ struct ToDoItem {
         self.isDone = isDone
         self.creationDate = creationDate
         self.changedDate = changedDate
-        self.isDeadline = deadline != nil ? true : false
     }
 }
-
-
-
