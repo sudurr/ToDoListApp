@@ -40,9 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		477D86E42A3C72150089A72E /* item1.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = item1.geojson; sourceTree = "<group>"; };
-		477D86E52A3C72250089A72E /* item2.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = item2.geojson; sourceTree = "<group>"; };
-		477D86E62A3C723B0089A72E /* item3.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = item3.geojson; sourceTree = "<group>"; };
 		477D86E72A3C7D2F0089A72E /* ToDoItemModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemModelTests.swift; sourceTree = "<group>"; };
 		477D86F22A3CC7130089A72E /* FileCacheModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheModelTests.swift; sourceTree = "<group>"; };
 		477D86F52A3CD46D0089A72E /* ToDoListAppUITests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ToDoListAppUITests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -87,16 +84,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		477D86E32A3C71800089A72E /* TestResources */ = {
-			isa = PBXGroup;
-			children = (
-				477D86E42A3C72150089A72E /* item1.geojson */,
-				477D86E52A3C72250089A72E /* item2.geojson */,
-				477D86E62A3C723B0089A72E /* item3.geojson */,
-			);
-			path = TestResources;
-			sourceTree = "<group>";
-		};
 		4793F3A92A3B0745001A8F32 = {
 			isa = PBXGroup;
 			children = (
@@ -127,7 +114,6 @@
 				4793F3BE2A3B074A001A8F32 /* Assets.xcassets */,
 				4793F3C02A3B074A001A8F32 /* LaunchScreen.storyboard */,
 				4793F3C32A3B074A001A8F32 /* Info.plist */,
-				477D86E32A3C71800089A72E /* TestResources */,
 			);
 			path = ToDoListApp;
 			sourceTree = "<group>";
