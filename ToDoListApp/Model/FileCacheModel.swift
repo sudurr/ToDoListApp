@@ -2,60 +2,51 @@ import Foundation
 
 //MARK: - FileCache
 
-/*
- 〉Содержит закрытую для внешнего изменения, но открытую для получения коллекцию TodoItem
- 〉Содержит функцию добавления новой задачи
- 〉Содержит функцию удаления задачи (на основе id)
- 〉Содержит функцию сохранения всех дел в json файл
- Можно сохранять в documentDirectory, можно в Library/Application Support.
- 〉Содержит функцию загрузки всех дел из json файла
- 〉Можем иметь несколько разных json файлов
- 〉Предусмотреть механизм защиты от дублирования задач (сравниванием id)
- Если в при добавлении новой задачи приходит TodoItem с id который уже есть в коллекции, то мы перезаписываем данные для TodoItem c таким id.
- */
-
-
 class FileCache {
-    private(set) var tasks: [ToDoItem] = []
+    private(set) var tasks: [UUID: ToDoItem] = [:]
     
     func add(task: ToDoItem) {
-        if !tasks.contains(where: { $0.id == task.id }) {
-            tasks.append(task)
-        }
+        tasks[task.id] = task
     }
     
-    func remove(taskID: String) {
-        tasks.removeAll(where: { $0.id == taskID })
+    func remove(taskID: UUID) {
+        tasks.removeValue(forKey: taskID)
     }
     
     func save(to fileName: String) throws {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
-        let taskDictionaries = tasks.map { ["id": $0.id,
-                                            "text": $0.text,
-                                            "importance": $0.importance,
-                                            "isDone": $0.isDone,
-                                            "creationDate": $0.creationDate] }
-        let data = try JSONSerialization.data(withJSONObject: taskDictionaries, options: [])
-        try data.write(to: url)
+        let tasksArray = Array(tasks.values)
+        let taskDictionaries = tasksArray.map { $0.json }
+        let jsonData = try JSONSerialization.data(withJSONObject: taskDictionaries, options: [])
+        try jsonData.write(to: url)
     }
+    
     
     func load(from fileName: String) throws {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
-        let data = try Data(contentsOf: url)
-        let taskDictionaries = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
-        tasks = taskDictionaries?.compactMap { dict in
-            guard let id = dict["id"] as? String,
-                  let text = dict["text"] as? String,
-                  let importance = dict["importance"] as? String,
-                  let isDone = dict["isDone"] as? Bool,
-                  let creationDate = dict["creationDate"] as? Date else {
-                      return nil
-                  }
-            return ToDoItem(id: id, text: text, importance: ToDoItem.Importance(rawValue: importance) ?? .regular, isDone: isDone, creationDate: creationDate)
-        } ?? []
+        let jsonData = try Data(contentsOf: url)
+        guard let taskDictionaries = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] else {
+            throw NSError(domain: "com.example.MyApp", code: 1, userInfo: nil)
+        }
+        tasks = taskDictionaries.compactMap { ToDoItem.parse(json: $0) }.reduce(into: [UUID: ToDoItem]()) { $0[$1.id] = $1 }
     }
     
-      func getDocumentsDirectory() -> URL {
+    func saveCSV(to fileName: String) throws {
+        let url = getDocumentsDirectory().appendingPathComponent(fileName)
+        let tasksArray = Array(tasks.values)
+        let csvData = tasksArray.map { $0.csv }.joined(separator: "\n")
+        try csvData.write(to: url, atomically: true, encoding: .utf8)
+    }
+    
+    func loadCSV(from fileName: String) throws {
+        let url = getDocumentsDirectory().appendingPathComponent(fileName)
+        let csvData = try String(contentsOf: url, encoding: .utf8)
+        let csvTasks = csvData.split(separator: "\n").compactMap { ToDoItem.parse(csv: String($0)) }
+        tasks = Dictionary(uniqueKeysWithValues: csvTasks.map { ($0.id, $0) })
+    }
+    
+    
+    func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
