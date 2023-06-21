@@ -2,8 +2,6 @@
 
 ## ДЗ 1 (смотри в Model)
 
-Написание тестов в разработке
-
 * ToDoItemModel.swift -> Реализована структура TodoItem 
 * JSONModel.swift -> Реализовано расширение TodoItem для разбора json
 * FileCacheModel.swift -> Реализован класс FileCache
