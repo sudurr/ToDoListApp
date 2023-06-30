@@ -19,7 +19,6 @@ final class FileCache {
         }
     }
     
-    // MARK: Working with JSON
     
     func saveToFile(to fileName: String) {
         let jsonItems = items.values.map { $0.json }

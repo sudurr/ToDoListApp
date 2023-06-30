@@ -8,22 +8,15 @@
 import UIKit
 
 class DetailsViewController: UIViewController, UITableViewDataSource {
-    
-    // MARK: ToDoItem initialization
-    
     enum OpenType {
         case add
         case edit
     }
     
     public var completionHandler: ((String, String, Importance, Date?, Bool, Date, Date?) -> Void)?
-    
     private let openType: OpenType
     private var item: ToDoItem?
     private var itemImportance: Importance = .regular
-    
-    // MARK: View initialization
-    
     let scrollView = CustomScrollView()
     let detailsTextView = DetailsTextView()
     let segmentedControl: UISegmentedControl = {
@@ -32,18 +25,13 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         control.insertSegment(withTitle: "нет", at: 1, animated: false)
         control.insertSegment(with: UIImage(named: "important")?.withRenderingMode(.alwaysOriginal), at: 2, animated: false)
         control.selectedSegmentIndex = 1
-        
         return control
     }()
     let tableView = UITableView()
     let switchControl = UISwitch()
-    
-    // MARK: Constraints for animations initialization
-    
     var labelConstraint1: NSLayoutConstraint? = nil
     var dateLabelConstraint: NSLayoutConstraint? = nil
     
-    // MARK: Extend initialization
     
     var selectedDate: Date?
     var isCalendarShown: Bool = false
@@ -52,7 +40,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
     var datePickerVisible = false
     var deadlineAlreadyHere = false
     
-    // MARK: Views initialization
     
     let datePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -101,7 +88,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         return button
     }()
     
-    // MARK: NavigationBar setup
     
     func navigationBarSetup() {
         navigationItem.title = "Дело"
@@ -125,7 +111,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    // MARK: dateCell views setup
     
     func dateCellViewSetup() {
         dateUntilLabel.setTitle(dateConfiguration().0, for: .normal)
@@ -133,8 +118,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         datePicker.date = dateConfiguration().1 ?? Date(timeIntervalSinceNow: 86400)
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
     }
-
-    // MARK: @objc functions
+    
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         dismissKeyboard()
@@ -178,12 +162,11 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         let newItem = ToDoItem(text: detailsTextView.text,
                                importance: itemImportance,
                                deadline: selectedDate)
-
+        
         completionHandler?(item?.id ?? newItem.id, newItem.text, newItem.importance, newItem.deadline, item?.isDone ?? false, item?.creationDate ?? newItem.creationDate, newItem.changedDate)
         dismiss(animated: true)
     }
     
-    // MARK: Working with keyboard show
     
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
@@ -299,7 +282,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationBarSetup()
         view.backgroundColor = UIColor(named: "BackPrimary")
         navigationItem.rightBarButtonItem?.isEnabled = false
@@ -354,7 +337,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         detailsTextView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
         detailsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         detailsTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
-
+        
     }
     
     func tableViewConfiguration() {
@@ -385,7 +368,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    // MARK: Working with tableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -452,14 +434,13 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
             datePicker.translatesAutoresizingMaskIntoConstraints = false
             datePicker.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor).isActive = true
             datePicker.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
-
+            
         }
         
         
         return cell
     }
     
-    // MARK: Calendar to appear
     
     @objc func dateButtonPressed() {
         
@@ -512,7 +493,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    // MARK: Done until button to show
     
     @objc func switchValueChanged(_ sender: UISwitch) {
         dismissKeyboard()
@@ -546,7 +526,6 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         saveButtonEnableCheck()
     }
     
-    // MARK: Working with scrollView
     
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: detailsTextView.frame.height + tableView.frame.height + deleteButton.frame.height + 100)
@@ -558,6 +537,3 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         }
     }
 }
-
-
-
