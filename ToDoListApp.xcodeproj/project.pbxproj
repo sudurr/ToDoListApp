@@ -23,6 +23,7 @@
 		4793F3BF2A3B074A001A8F32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4793F3BE2A3B074A001A8F32 /* Assets.xcassets */; };
 		4793F3E72A3B079A001A8F32 /* ToDoItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4793F3E62A3B079A001A8F32 /* ToDoItemModel.swift */; };
 		4793F3F02A3B08AE001A8F32 /* FileCacheModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4793F3EF2A3B08AE001A8F32 /* FileCacheModel.swift */; };
+		47F3E2E32A55A1410061647B /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F3E2E22A55A1410061647B /* ApiClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		4793F3D22A3B074B001A8F32 /* ToDoListAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4793F3E62A3B079A001A8F32 /* ToDoItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemModel.swift; sourceTree = "<group>"; };
 		4793F3EF2A3B08AE001A8F32 /* FileCacheModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheModel.swift; sourceTree = "<group>"; };
+		47F3E2E22A55A1410061647B /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 		4793F3B42A3B0745001A8F32 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
+				47F3E2E12A55A1260061647B /* Network */,
 				47767C142A4EBD6D00830475 /* MVC modules */,
 				4793F3B52A3B0745001A8F32 /* AppDelegate.swift */,
 				4793F3B72A3B0745001A8F32 /* SceneDelegate.swift */,
@@ -169,6 +172,14 @@
 				471AE3C42A48B33E0090D7E6 /* ImportanceModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		47F3E2E12A55A1260061647B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				47F3E2E22A55A1410061647B /* ApiClient.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,6 +319,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		47767C2C2A4F4AFD00830475 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 8;
 			files = (
 			);
@@ -322,6 +334,7 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -341,6 +354,7 @@
 				4793F3B62A3B0745001A8F32 /* AppDelegate.swift in Sources */,
 				47767C202A4EF9A700830475 /* ItemDetailViewController.swift in Sources */,
 				4793F3B82A3B0745001A8F32 /* SceneDelegate.swift in Sources */,
+				47F3E2E32A55A1410061647B /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,11 +1,11 @@
 import Foundation
 
 struct ToDoItem {
-    let id : String
-    let text : String
-    let importance : Importance
-    let deadline : Date?
-    let isDone : Bool
+    let id: String
+    let text: String
+    let importance: Importance
+    let deadline: Date?
+    let isDone: Bool
     let creationDate: Date
     let changedDate: Date?
     
@@ -28,8 +28,7 @@ struct ToDoItem {
     }
 }
 
-
-//MARK: - JSON Parsing
+// MARK: - JSON Parsing
 
 private let kId = "id"
 private let kText = "text"

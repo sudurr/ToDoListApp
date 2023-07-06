@@ -79,7 +79,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
         
         return label
     }()
-    
+
     let dateUntilLabel: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor(named: "Blue"), for: .normal)
@@ -333,7 +333,8 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
     
     func detailsTextViewSetup() {
         detailsTextView.translatesAutoresizingMaskIntoConstraints = false
-        detailsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        detailsTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                 constant: 16).isActive = true
         detailsTextView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
         detailsTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         detailsTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
@@ -530,7 +531,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource {
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: detailsTextView.frame.height + tableView.frame.height + deleteButton.frame.height + 100)
     }
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize" {
             scrollView.contentSize = contentSize
