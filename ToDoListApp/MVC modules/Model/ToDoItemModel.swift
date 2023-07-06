@@ -8,6 +8,7 @@ struct ToDoItem {
     let isDone: Bool
     let creationDate: Date
     let changedDate: Date?
+    let color: String?
     
     init(
         id: String = UUID().uuidString,
@@ -17,6 +18,7 @@ struct ToDoItem {
         isDone: Bool = false,
         creationDate: Date = Date(),
         changedDate: Date? = nil
+        color: String
     ) {
         self.id = id
         self.text = text
@@ -25,6 +27,7 @@ struct ToDoItem {
         self.isDone = isDone
         self.creationDate = creationDate
         self.changedDate = changedDate
+        self.color = color
     }
 }
 
@@ -37,6 +40,7 @@ private let kDeadline = "deadline"
 private let kIsDone = "done"
 private let kCreationDate = "creationDate"
 private let kChangedDate = "changedDate"
+private let kColor = "color"
 
 extension ToDoItem {
     static func parse(json: Any) -> ToDoItem? {
@@ -56,19 +60,21 @@ extension ToDoItem {
         let deadline = (js[kDeadline] as? Int).flatMap { Date(timeIntervalSince1970: TimeInterval($0)) }
         let isDone = (js[kIsDone] as? Bool) ?? false
         let changedAt = (js[kChangedDate] as? Int).flatMap { Date(timeIntervalSince1970: TimeInterval($0)) }
+        let color = (js[kColor]) as? String)
 
         return ToDoItem(id: id,
                         text: text,
                         importance: importance,
                         deadline: deadline,
                         isDone: isDone
-                        )
+                        color: color)
     }
 
     var json: Any {
         var res: [String: Any] = [:]
         res[kId] = id
         res[kText] = text
+        res[kColor] = color
         if importance != .regular {
             res[kImportance] = importance.rawValue
         }
