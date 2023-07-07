@@ -138,14 +138,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		47767C142A4EBD6D00830475 /* MVC modules */ = {
+		47767C142A4EBD6D00830475 /* MVVM modules */ = {
 			isa = PBXGroup;
 			children = (
 				47CC008D2A589F6B00E41138 /* Service */,
 				47CC006B2A589C7900E41138 /* Presenter */,
 				4793F3E52A3B0752001A8F32 /* Model */,
 			);
-			path = "MVC modules";
+			path = "MVVM modules";
 			sourceTree = "<group>";
 		};
 		4793F3A92A3B0745001A8F32 = {
@@ -170,7 +170,7 @@
 		4793F3B42A3B0745001A8F32 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
-				47767C142A4EBD6D00830475 /* MVC modules */,
+				47767C142A4EBD6D00830475 /* MVVM modules */,
 				4793F3B52A3B0745001A8F32 /* AppDelegate.swift */,
 				4793F3BE2A3B074A001A8F32 /* Assets.xcassets */,
 				4793F3C32A3B074A001A8F32 /* Info.plist */,
