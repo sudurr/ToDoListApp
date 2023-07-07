@@ -14,13 +14,6 @@
 		4793F3BF2A3B074A001A8F32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4793F3BE2A3B074A001A8F32 /* Assets.xcassets */; };
 		4793F3E72A3B079A001A8F32 /* ToDoItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4793F3E62A3B079A001A8F32 /* ToDoItemModel.swift */; };
 		4793F3F02A3B08AE001A8F32 /* FileCacheModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4793F3EF2A3B08AE001A8F32 /* FileCacheModel.swift */; };
-		47A0BF8B2A56EC620005995B /* NetworkServiceImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BF8A2A56EC620005995B /* NetworkServiceImplementation.swift */; };
-		47A0BF8D2A56ED1B0005995B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BF8C2A56ED1B0005995B /* NetworkService.swift */; };
-		47A0BF912A56ED740005995B /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BF902A56ED740005995B /* RequestError.swift */; };
-		47A0BF932A56EDCD0005995B /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BF922A56EDCD0005995B /* Response.swift */; };
-		47A0BF972A56EDFE0005995B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BF962A56EDFE0005995B /* Item.swift */; };
-		47CC00672A586B3200E41138 /* DataTransferObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00662A586B3200E41138 /* DataTransferObject.swift */; };
-		47CC00692A58998E00E41138 /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00682A58998D00E41138 /* json.swift */; };
 		47CC00702A589CE800E41138 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC006F2A589CE800E41138 /* RootCoordinator.swift */; };
 		47CC00722A589D0000E41138 /* ToDoListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00712A589D0000E41138 /* ToDoListCoordinator.swift */; };
 		47CC00742A589D1000E41138 /* ToDoItemCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00732A589D1000E41138 /* ToDoItemCoordinator.swift */; };
@@ -82,13 +75,6 @@
 		4793F3D22A3B074B001A8F32 /* ToDoListAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4793F3E62A3B079A001A8F32 /* ToDoItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemModel.swift; sourceTree = "<group>"; };
 		4793F3EF2A3B08AE001A8F32 /* FileCacheModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheModel.swift; sourceTree = "<group>"; };
-		47A0BF8A2A56EC620005995B /* NetworkServiceImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceImplementation.swift; sourceTree = "<group>"; };
-		47A0BF8C2A56ED1B0005995B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		47A0BF902A56ED740005995B /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
-		47A0BF922A56EDCD0005995B /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
-		47A0BF962A56EDFE0005995B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		47CC00662A586B3200E41138 /* DataTransferObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTransferObject.swift; sourceTree = "<group>"; };
-		47CC00682A58998D00E41138 /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
 		47CC006F2A589CE800E41138 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		47CC00712A589D0000E41138 /* ToDoListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListCoordinator.swift; sourceTree = "<group>"; };
 		47CC00732A589D1000E41138 /* ToDoItemCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemCoordinator.swift; sourceTree = "<group>"; };
@@ -184,7 +170,6 @@
 		4793F3B42A3B0745001A8F32 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
-				47F3E2E12A55A1260061647B /* Network */,
 				47767C142A4EBD6D00830475 /* MVC modules */,
 				4793F3B52A3B0745001A8F32 /* AppDelegate.swift */,
 				4793F3BE2A3B074A001A8F32 /* Assets.xcassets */,
@@ -318,20 +303,6 @@
 				47CC00B52A58A66C00E41138 /* Animator.swift */,
 			);
 			path = AdditionalViews;
-			sourceTree = "<group>";
-		};
-		47F3E2E12A55A1260061647B /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				47A0BF8A2A56EC620005995B /* NetworkServiceImplementation.swift */,
-				47A0BF902A56ED740005995B /* RequestError.swift */,
-				47A0BF922A56EDCD0005995B /* Response.swift */,
-				47A0BF962A56EDFE0005995B /* Item.swift */,
-				47CC00662A586B3200E41138 /* DataTransferObject.swift */,
-				47A0BF8C2A56ED1B0005995B /* NetworkService.swift */,
-				47CC00682A58998D00E41138 /* json.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,7 +468,6 @@
 			files = (
 				47CC00762A589D2A00E41138 /* RootCoordinatorImpl.swift in Sources */,
 				47CC00B62A58A66C00E41138 /* Animator.swift in Sources */,
-				47A0BF912A56ED740005995B /* RequestError.swift in Sources */,
 				47CC00A92A58A36500E41138 /* ImportanceView.swift in Sources */,
 				47CC00AB2A58A3B900E41138 /* ColorView.swift in Sources */,
 				47CC00802A589E2700E41138 /* TodoListViewController.swift in Sources */,
@@ -513,20 +483,16 @@
 				47CC00A52A58A30E00E41138 /* LightnessSelectionSlider.swift in Sources */,
 				47CC00962A58A04800E41138 /* Localization.swift in Sources */,
 				4793F3F02A3B08AE001A8F32 /* FileCacheModel.swift in Sources */,
-				47A0BF8D2A56ED1B0005995B /* NetworkService.swift in Sources */,
 				47CC00B12A58A40300E41138 /* DatePickerView.swift in Sources */,
 				47CC00822A589E8300E41138 /* TodoListViewModel.swift in Sources */,
 				47CC00942A58A01E00E41138 /* UITableViewCell+Extensions.swift in Sources */,
 				4793F3E72A3B079A001A8F32 /* ToDoItemModel.swift in Sources */,
-				47CC00672A586B3200E41138 /* DataTransferObject.swift in Sources */,
 				47CC009E2A58A15B00E41138 /* Network.swift in Sources */,
 				47CC007C2A589DE100E41138 /* TodoItemTableViewCell.swift in Sources */,
 				47CC00B42A58A61300E41138 /* UIColor+Extensions.swift in Sources */,
 				47CC00AD2A58A3CE00E41138 /* ColorPickerView.swift in Sources */,
 				47CC00862A589EE800E41138 /* TodoItemViewController.swift in Sources */,
 				47CC00922A589FF900E41138 /* UIViewController+Extensions.swift in Sources */,
-				47CC00692A58998E00E41138 /* json.swift in Sources */,
-				47A0BF932A56EDCD0005995B /* Response.swift in Sources */,
 				4793F3B62A3B0745001A8F32 /* AppDelegate.swift in Sources */,
 				47CC00842A589E8E00E41138 /* TodoListViewOutput.swift in Sources */,
 				47CC00A02A58A1B300E41138 /* Data.swift in Sources */,
@@ -534,9 +500,7 @@
 				47CC00902A589FCB00E41138 /* Configurable.swift in Sources */,
 				47CC009A2A58A0FA00E41138 /* DataTransfer.swift in Sources */,
 				47CC00AF2A58A3E600E41138 /* DeadlineView.swift in Sources */,
-				47A0BF972A56EDFE0005995B /* Item.swift in Sources */,
 				47CC00742A589D1000E41138 /* ToDoItemCoordinator.swift in Sources */,
-				47A0BF8B2A56EC620005995B /* NetworkServiceImplementation.swift in Sources */,
 				47CC00702A589CE800E41138 /* RootCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
