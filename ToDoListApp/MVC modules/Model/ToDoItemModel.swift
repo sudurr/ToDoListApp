@@ -1,24 +1,37 @@
+
 import Foundation
 
-struct ToDoItem {
-    let id: String
+struct TodoItem: Hashable {
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case text
+        case importance
+        case deadline
+        case isDone = "done"
+        case creationDate = "created_at"
+        case modificationDate = "changed_at"
+        case textColor = "color"
+    }
+
+    let id: UUID
     let text: String
     let importance: Importance
     let deadline: Date?
     let isDone: Bool
     let creationDate: Date
-    let changedDate: Date?
-    let color: String?
-    
+    let modificationDate: Date?
+    let textColor: String
+
     init(
-        id: String = UUID().uuidString,
+        id: UUID = UUID(),
         text: String,
         importance: Importance,
-        deadline: Date? = nil,
+        deadline: Date?,
         isDone: Bool = false,
         creationDate: Date = Date(),
-        changedDate: Date? = nil
-        color: String
+        modificationDate: Date? = nil,
+        textColor: String
     ) {
         self.id = id
         self.text = text
@@ -26,66 +39,157 @@ struct ToDoItem {
         self.deadline = deadline
         self.isDone = isDone
         self.creationDate = creationDate
-        self.changedDate = changedDate
-        self.color = color
+        self.modificationDate = modificationDate
+        self.textColor = textColor
     }
+
 }
 
 // MARK: - JSON Parsing
 
-private let kId = "id"
-private let kText = "text"
-private let kImportance = "importance"
-private let kDeadline = "deadline"
-private let kIsDone = "done"
-private let kCreationDate = "creationDate"
-private let kChangedDate = "changedDate"
-private let kColor = "color"
-
-extension ToDoItem {
-    static func parse(json: Any) -> ToDoItem? {
-        guard let js = json as? [String: Any] else {
-            return nil
-        }
-
-        guard
-            let id = js[kId] as? String,
-            let text = js[kText] as? String,
-            let _ = (js[kCreationDate] as? Int).flatMap ({ Date(timeIntervalSince1970: TimeInterval($0)) })
-        else {
-            return nil
-        }
-
-        let importance = (js[kImportance] as? String).flatMap(Importance.init(rawValue:)) ?? .regular
-        let deadline = (js[kDeadline] as? Int).flatMap { Date(timeIntervalSince1970: TimeInterval($0)) }
-        let isDone = (js[kIsDone] as? Bool) ?? false
-        let changedAt = (js[kChangedDate] as? Int).flatMap { Date(timeIntervalSince1970: TimeInterval($0)) }
-        let color = (js[kColor]) as? String)
-
-        return ToDoItem(id: id,
-                        text: text,
-                        importance: importance,
-                        deadline: deadline,
-                        isDone: isDone
-                        color: color)
-    }
+extension TodoItem {
 
     var json: Any {
-        var res: [String: Any] = [:]
-        res[kId] = id
-        res[kText] = text
-        res[kColor] = color
+        var dictionary: [String: Any] = [:]
+        dictionary[CodingKeys.id.rawValue] = id.uuidString
+        dictionary[CodingKeys.text.rawValue] = text
         if importance != .regular {
-            res[kImportance] = importance.rawValue
+            dictionary[CodingKeys.importance.rawValue] = importance.rawValue
         }
-        if let deadline = deadline {
-            res[kDeadline] = Int(deadline.timeIntervalSince1970)
-        }
-        res[kIsDone] = isDone
-        res[kCreationDate] = Int(creationDate.timeIntervalSince1970)
-        if let changedDate = changedDate {
-            res[kChangedDate] = Int(changedDate.timeIntervalSince1970)
-        }
-        return res
+        dictionary[CodingKeys.deadline.rawValue] = deadline?.timeIntervalSince1970
+        dictionary[CodingKeys.isDone.rawValue] = isDone
+        dictionary[CodingKeys.creationDate.rawValue] = creationDate.timeIntervalSince1970
+        dictionary[CodingKeys.modificationDate.rawValue] = modificationDate?.timeIntervalSince1970
+        dictionary[CodingKeys.textColor.rawValue] = textColor
+        return dictionary
     }
+
+    static func parse(json: Any) -> TodoItem? {
+        guard
+            let dictionary = json as? [String: Any],
+            let idString = dictionary[CodingKeys.id.rawValue] as? String,
+            let id = UUID(uuidString: idString),
+            let text = dictionary[CodingKeys.text.rawValue] as? String,
+            let importance = (dictionary[CodingKeys.importance.rawValue] as? String)
+                .map(Importance.init(rawValue:)) ?? Importance.regular,
+            let isDone = dictionary[CodingKeys.isDone.rawValue] as? Bool,
+            let creationDateTimeInterval = dictionary[CodingKeys.creationDate.rawValue] as? TimeInterval,
+            let textColor = dictionary[CodingKeys.textColor.rawValue] as? String
+        else { return nil }
+
+        let creationDate = Date(timeIntervalSince1970: creationDateTimeInterval)
+        let deadline = (dictionary[CodingKeys.deadline.rawValue] as? TimeInterval)
+            .map { interval in Date(timeIntervalSince1970: interval) }
+        let modificationDate = (dictionary[CodingKeys.modificationDate.rawValue] as? TimeInterval)
+            .map { interval in Date(timeIntervalSince1970: interval) }
+
+        return TodoItem(
+            id: id,
+            text: text,
+            importance: importance,
+            deadline: deadline,
+            isDone: isDone,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            textColor: textColor
+        )
+    }
+
+}
+
+// MARK: - CSV Parsing
+
+extension TodoItem {
+
+    static let csvColumnsDelimiter = ";"
+    static let csvRowsDelimiter = "\r"
+
+    static var csvTitles: String {
+        var values = [String]()
+        values.append(CodingKeys.id.rawValue)
+        values.append(CodingKeys.text.rawValue)
+        values.append(CodingKeys.importance.rawValue)
+        values.append(CodingKeys.deadline.rawValue)
+        values.append(CodingKeys.isDone.rawValue)
+        values.append(CodingKeys.creationDate.rawValue)
+        values.append(CodingKeys.modificationDate.rawValue)
+        values.append(CodingKeys.textColor.rawValue)
+        return values.joined(separator: TodoItem.csvColumnsDelimiter)
+    }
+
+    var csv: String {
+        var values = [String]()
+        values.append(id.uuidString)
+        values.append(text)
+        values.append(importance != .regular ? importance.rawValue : "")
+        values.append(deadline?.timeIntervalSince1970.description ?? "")
+        values.append((isDone ? 1 : 0).description)
+        values.append(creationDate.timeIntervalSince1970.description)
+        values.append(modificationDate?.timeIntervalSince1970.description ?? "")
+        values.append(textColor)
+        return values.joined(separator: TodoItem.csvColumnsDelimiter)
+    }
+
+    static func parse(csv: String) -> TodoItem? {
+        let columns = csv.components(separatedBy: TodoItem.csvColumnsDelimiter)
+
+        guard
+            columns.count == 8,
+            let id = UUID(uuidString: columns[0]),
+            let importance = (columns[2].isEmpty ? nil : columns[2]).map(Importance.init(rawValue:)) ?? .regular,
+            let isDoneInt = Int(columns[4]),
+            isDoneInt == 0 || isDoneInt == 1,
+            let creationDateTimeInterval = TimeInterval(columns[5])
+        else { return nil }
+
+        let text = columns[1]
+        let isDone = isDoneInt != 0
+        let creationDate = Date(timeIntervalSince1970: creationDateTimeInterval)
+        let deadline = TimeInterval(columns[3]).map { interval in Date(timeIntervalSince1970: interval) }
+        let modificationDate = TimeInterval(columns[6]).map { interval in Date(timeIntervalSince1970: interval) }
+        let textColor = columns[7]
+
+        return TodoItem(
+            id: id,
+            text: text,
+            importance: importance,
+            deadline: deadline,
+            isDone: isDone,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            textColor: textColor
+        )
+    }
+
+}
+
+
+enum Importance: String {
+
+    case unimportant = "low"
+    case regular = "basic"
+    case important
+
+    var index: Int {
+        switch self {
+        case .unimportant:
+            return 0
+        case .regular:
+            return 1
+        case .important:
+            return 2
+        }
+    }
+
+    static func getValue(index: Int) -> Importance {
+        switch index {
+        case 0:
+            return .unimportant
+        case 2:
+            return .important
+        default:
+            return .regular
+        }
+    }
+
 }

@@ -1,57 +1,113 @@
 import Foundation
 
-final class FileCache {
-    private(set) var items: [String: ToDoItem] = [:]
-    
-    func add(item: ToDoItem) -> ToDoItem? {
-        let replacedItem = items[item.id]
-        items.updateValue(item, forKey: item.id)
-        return replacedItem
-    }
-    
-    func remove(at id: String) -> ToDoItem? {
-        if let deletedItem = items[id] {
-            items[id] = nil
-            return deletedItem
-        } else {
-            print("where is no item with this id: \(id)")
-            return nil
-        }
-    }
-    
-    
-    func saveToFile(to fileName: String) {
-        let jsonItems = items.values.map { $0.json }
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
-            guard let filesDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                print("documents directory not found")
-                return
-            }
-            let fileURL = filesDirectory.appendingPathComponent("\(fileName).todofile")
-            try jsonData.write(to: fileURL)
-            
-        } catch {
-            print("saving to file error: \(error)")
-        }
-    }
-    
-    func loadFromFile(from fileName: String) {
-        do {
-            guard let filesDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                print("documents directory not found")
-                return
-            }
-            let fileURL = filesDirectory.appendingPathComponent("\(fileName).todofile")
-            let jsonData = try Data(contentsOf: fileURL)
-            let jsonItems = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [Any] ?? []
-            let loadedItems = jsonItems.compactMap { ToDoItem.parse(json: $0) }
-            items = Dictionary(uniqueKeysWithValues: loadedItems.map { ($0.id, $0) })
-            
-        } catch {
-            print("loading from file error: \(error)")
-        }
-    }
+protocol FileCache {
+    var todoItems: [UUID: TodoItem] { get }
+    var isDirty: Bool { get }
+    func updateIsDirtyValue(by newValue: Bool)
+    func addItem(_ item: TodoItem)
+    func deleteItem(with id: UUID)
+    func saveItemsToJSON(fileName: String) async throws
+    func loadItemsFromJSON(fileName: String) async throws
+    func saveItemsToCSV(fileName: String) async throws
+    func loadItemsFromCSV(fileName: String) async throws
 }
- 
+
+
+final class FileCacheImpl: FileCache {
+
+    private(set) var todoItems: [UUID: TodoItem] = [:]
+    private(set) var isDirty: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "isDirty")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isDirty")
+        }
+    }
+
+    // MARK: - Public Methods
+
+    func updateIsDirtyValue(by newValue: Bool) {
+        isDirty = newValue
+    }
+
+    func addItem(_ item: TodoItem) {
+        todoItems[item.id] = item
+    }
+
+    func deleteItem(with id: UUID) {
+        todoItems.removeValue(forKey: id)
+    }
+
+    func saveItemsToJSON(fileName: String) async throws {
+        let itemsArray = todoItems.values.map(\.json)
+        let jsonData = try JSONSerialization.data(withJSONObject: itemsArray, options: [.prettyPrinted, .sortedKeys])
+        try saveDataToDocuments(jsonData, fileName: "\(fileName).json")
+    }
+
+    func loadItemsFromJSON(fileName: String) async throws {
+        let jsonData = try loadDataFromDocuments(fileName: "\(fileName).json")
+        let decodedData = try JSONSerialization.jsonObject(with: jsonData, options: [])
+        guard let itemsArray = decodedData as? [[String: Any]] else { return }
+
+        var newTodoItems: [UUID: TodoItem] = [:]
+        itemsArray.forEach { dictionary in
+            if let item = TodoItem.parse(json: dictionary) {
+                newTodoItems[item.id] = item
+            }
+        }
+        todoItems = newTodoItems
+    }
+
+    func saveItemsToCSV(fileName: String) async throws {
+        var csvString = TodoItem.csvTitles
+        csvString.append(TodoItem.csvRowsDelimiter)
+        todoItems.values.forEach { item in
+            csvString.append(item.csv)
+            csvString.append(TodoItem.csvRowsDelimiter)
+        }
+        try saveStringToDocuments(csvString, fileName: "\(fileName).csv")
+    }
+
+    func loadItemsFromCSV(fileName: String) async throws {
+        let csvString = try loadStringFromDocuments(fileName: "\(fileName).csv")
+        var rows = csvString.components(separatedBy: TodoItem.csvRowsDelimiter)
+        rows.removeFirst()
+        var newTodoItems: [UUID: TodoItem] = [:]
+        rows.forEach { row in
+            if let item = TodoItem.parse(csv: row) {
+                newTodoItems[item.id] = item
+            }
+        }
+        todoItems = newTodoItems
+    }
+
+    // MARK: - Private Methods
+
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+
+    private func saveDataToDocuments(_ data: Data, fileName: String) throws {
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+        try data.write(to: fileURL)
+    }
+
+    private func loadDataFromDocuments(fileName: String) throws -> Data {
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+        return try Data(contentsOf: fileURL)
+    }
+
+    private func saveStringToDocuments(_ string: String, fileName: String) throws {
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+        try string.write(to: fileURL, atomically: true, encoding: .utf8)
+    }
+
+    private func loadStringFromDocuments(fileName: String) throws -> String {
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
+        return try String(contentsOf: fileURL, encoding: .utf8)
+    }
+
+}
