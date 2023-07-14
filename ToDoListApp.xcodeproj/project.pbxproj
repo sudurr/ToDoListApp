@@ -157,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				4793F3B42A3B0745001A8F32 /* ToDoListApp */,
-				4793F3CB2A3B074B001A8F32 /* ToDoListAppTests */,
 				4793F3B32A3B0745001A8F32 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,13 +180,6 @@
 				4793F3C32A3B074A001A8F32 /* Info.plist */,
 			);
 			path = ToDoListApp;
-			sourceTree = "<group>";
-		};
-		4793F3CB2A3B074B001A8F32 /* ToDoListAppTests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ToDoListAppTests;
 			sourceTree = "<group>";
 		};
 		4793F3E52A3B0752001A8F32 /* Model */ = {
