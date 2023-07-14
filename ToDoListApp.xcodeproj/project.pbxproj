@@ -48,6 +48,7 @@
 		47CC00B42A58A61300E41138 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00B32A58A61300E41138 /* UIColor+Extensions.swift */; };
 		47CC00B62A58A66C00E41138 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC00B52A58A66C00E41138 /* Animator.swift */; };
 		47FB15582A61553800584D2D /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 47FB15572A61553800584D2D /* SQLite */; };
+		47FB155C2A6173A500584D2D /* SQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FB155B2A6173A500584D2D /* SQL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		47CC00B02A58A40300E41138 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		47CC00B32A58A61300E41138 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		47CC00B52A58A66C00E41138 /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		47FB155B2A6173A500584D2D /* SQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				4793F3EF2A3B08AE001A8F32 /* FileCacheModel.swift */,
+				47FB155B2A6173A500584D2D /* SQL.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				47CC00762A589D2A00E41138 /* RootCoordinatorImpl.swift in Sources */,
 				47CC00B62A58A66C00E41138 /* Animator.swift in Sources */,
 				47CC00A92A58A36500E41138 /* ImportanceView.swift in Sources */,
+				47FB155C2A6173A500584D2D /* SQL.swift in Sources */,
 				47CC00AB2A58A3B900E41138 /* ColorView.swift in Sources */,
 				47CC00802A589E2700E41138 /* TodoListViewController.swift in Sources */,
 				47CC00882A589F0A00E41138 /* TodoItemViewModel.swift in Sources */,
