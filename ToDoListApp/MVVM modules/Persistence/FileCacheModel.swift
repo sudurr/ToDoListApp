@@ -12,7 +12,6 @@ protocol FileCache {
     func loadItemsFromCSV(fileName: String) async throws
 }
 
-
 final class FileCacheImpl: FileCache {
 
     private(set) var todoItems: [UUID: TodoItem] = [:]
@@ -24,8 +23,6 @@ final class FileCacheImpl: FileCache {
             UserDefaults.standard.set(newValue, forKey: "isDirty")
         }
     }
-
-    // MARK: - Public Methods
 
     func updateIsDirtyValue(by newValue: Bool) {
         isDirty = newValue
@@ -81,8 +78,6 @@ final class FileCacheImpl: FileCache {
         }
         todoItems = newTodoItems
     }
-
-    // MARK: - Private Methods
 
     private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
