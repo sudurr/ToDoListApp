@@ -1,3 +1,2 @@
 # ToDoListApp
 
-## telegram: @mekelebe
